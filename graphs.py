@@ -88,17 +88,17 @@ def has_cycle(G: Graph) -> bool:
         if not marked[node]:
             # Subgraph starting from current node
             # Parent does not exist, use -1 to represent
-            if has_cylce_helper(G, node, marked, -1):
+            if has_cycle_helper(G, node, marked, -1):
                 return True
     return False
 
 # Return iff there is a cycle in subgraph reachable from a certain node
-def has_cylce_helper(G: Graph, node: int, marked: Dict[int, bool], parent: int) -> bool:
+def has_cycle_helper(G: Graph, node: int, marked: Dict[int, bool], parent: int) -> bool:
     marked[node] = True
     # All the nodes djacent to this node
     for adj in G.adj[node]:
         if not marked[adj]:
-            if has_cylce_helper(G, adj, marked, node):
+            if has_cycle_helper(G, adj, marked, node):
                 return True
         # If an adjacent node is visited and not parent of the current node
         # Then there is a cycle
