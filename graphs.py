@@ -78,6 +78,35 @@ def DFS3(G: Graph, src: int) -> Dict[int, int]:
                     pred[node] = current_node
     return pred
 
+# Return True iff there is a cycle in G
+def has_cycle(G: Graph) -> bool:
+    # All nodes in the graph
+    nodes = list(G.adj.keys())
+    marked = {node : False for node in G.adj}
+    # Call the recursive helper function to detect cycle in different DFS trees
+    for node in nodes:
+        if not marked[node]:
+            # Subgraph starting from current node
+            # Parent does not exist, use -1 to represent
+            if has_cylce_helper(G, node, marked, -1):
+                return True
+    return False
+
+# Return iff there is a cycle in subgraph reachable from a certain node
+def has_cylce_helper(G: Graph, node: int, marked: Dict[int, bool], parent: int) -> bool:
+    marked[node] = True
+    # All the nodes djacent to this node
+    for adj in G.adj[node]:
+        if not marked[adj]:
+            if has_cylce_helper(G, adj, marked, node):
+                return True
+        # If an adjacent node is visited and not parent of the current node
+        # Then there is a cycle
+        elif parent != adj:
+            return True
+    return False
+
+
 g = Graph(6)
 g.add_edge(0, 1)
 g.add_edge(0, 2)
@@ -86,6 +115,3 @@ g.add_edge(2, 3)
 g.add_edge(2, 4)
 g.add_edge(3, 4)
 g.add_edge(3, 5)
-print(BFS3(g, 0))
-print(DFS3(g, 0))
-print(DFS2(g, 0, 5))
