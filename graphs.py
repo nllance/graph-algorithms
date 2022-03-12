@@ -106,12 +106,15 @@ def has_cylce_helper(G: Graph, node: int, marked: Dict[int, bool], parent: int) 
             return True
     return False
 
-
-g = Graph(6)
-g.add_edge(0, 1)
-g.add_edge(0, 2)
-g.add_edge(1, 3)
-g.add_edge(2, 3)
-g.add_edge(2, 4)
-g.add_edge(3, 4)
-g.add_edge(3, 5)
+# Return True iff there is a path between any two nodes in G
+def is_connected(G: Graph) -> bool:
+    n = G.number_of_nodes()
+    # No edge in the graph
+    if n == 0:
+        return False
+    # Nodes reachable from node 0
+    # If the graph has a path between any two nodes, all other nodes should be reachable
+    connected = BFS3(G, 0)
+    if len(connected) + 1 == n:
+        return True
+    return False
