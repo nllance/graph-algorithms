@@ -19,9 +19,10 @@ def create_random_graph(k: int, c: int) -> Graph:
     return G
 
 # Test the relationship between portion of cyclic graphs and number of edges c
+# Result: c = 55 (half), c = 75 (almost all)
 def cycle_test():
-    # Number of edges c from 0 to 300
-    cs = [_ for _ in range(301)]
+    # Number of edges c from 0 to 500
+    cs = [_ for _ in range(501)]
     ys = []
 
     for c in cs:
@@ -40,4 +41,28 @@ def cycle_test():
     plt.title("The portion of cyclic graphs vs number of edges c")
     plt.show()
 
+# Test the relationship between portion of fully connected graphs and number of edges c
+# Result: c = 160 (always 0), c = 245 (half), c = 450 (almost all)
+def connected_test():
+    # Number of edges c from 0 to 500
+    cs = [_ for _ in range(501)]
+    ys = []
+
+    for c in cs:
+        # Test each c 100 times to calculate portion
+        result = 0
+        for _ in range(100):
+            # Number of nodes k = 100
+            G = create_random_graph(100, c)
+            if is_connected(G):
+                result += 1
+        ys.append(result)
+
+    plt.plot(cs, ys, '.')
+    plt.xlabel("Number of edges c")
+    plt.ylabel("Portion of fully connected graphs (%)")
+    plt.title("The portion of fully connected graphs vs number of edges c")
+    plt.show()
+
 cycle_test()
+connected_test()
